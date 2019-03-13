@@ -8,27 +8,19 @@ namespace Grades2
 {
     class Program
     {
-        static void GIveBookAName(GradeBook book)
-        {
-            book.Name = "The GradeBook";
-        }
+        
         static void Main(string[] args)
         {
-            Immutable();
-            Array();
-            string name1 = "James";
-            string name2 = "james";
-
-            bool areEqual = name1.Equals(name2);
-            Console.WriteLine(areEqual);
-
-            GradeBook g1 = new GradeBook();
-            GradeBook g2 = g1;
+            
 
             GradeBook book = new GradeBook();
             book.AddGrade(91f);
             book.AddGrade(89.5f);
+            book.AddGrade(75f);
+
             GradeStatistics stats = book.ComputeStatistics();
+
+            WriteBytes(stats.AverageGrade);
 
             Console.WriteLine(stats.AverageGrade);
             Console.WriteLine(stats.LowestGrade);
@@ -36,32 +28,26 @@ namespace Grades2
 
         }
 
-        private static void Array()
+        private static void WriteBytes(float value)
         {
-            float[] grades;
-            grades = new float[4];
+            byte[] bytes = BitConverter.GetBytes(value);
             
+            WriteByteArray(bytes);
+        }
 
-            AddGrades(grades);
-            foreach (float grade in grades)
+        private static void WriteBytes(int value)
+        {
+            byte[] bytes = BitConverter.GetBytes(value);
+            WriteByteArray(bytes);
+        }
+
+        private static void WriteByteArray(byte[] bytes)
+        {
+            foreach (byte b in bytes)
             {
-                Console.WriteLine(grade);
+                Console.Write("0x{0:X2} ", b);
             }
-        }
-
-        private static void AddGrades(float[] grades)
-        {
-            grades[0] = 91f;
-            grades[1] = 89.1f;
-            grades[2] = 75f;
-        }
-
-        private static void Immutable()
-        {
-            string name = " James ";
-            name = name.Trim();
-            Console.WriteLine(name);
-
+            Console.WriteLine();
         }
     }
 }
